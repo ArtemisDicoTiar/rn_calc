@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "rn_calc",
+    "slug": "rn_calc",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "rn_calc"
+}
