@@ -16,7 +16,9 @@ function putDecimal(setArr, arr) {
     if (arr[arr.length-1] === '.') {
         setArr(arr.slice(0, arr.length-1))
     } else {
-        setArr([...arr, '.'])
+        if (arr.length < 9) {
+            setArr([...arr, '.'])
+        }
     }
 }
 
