@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import {StyleCalcButtonText, StyleCalcButtonTouchableOpacity} from "../styles/StyleCalcButton";
 import PropTypes from 'prop-types'
 
-const CalcButton = ({space, title, children, onPress}) => {
+const CalcButton = ({space, operator, title, children, onPress}) => {
     return (
         <StyleCalcButtonTouchableOpacity
             child={children || title}
@@ -14,8 +14,9 @@ const CalcButton = ({space, title, children, onPress}) => {
             hitSlop={{bottom: 10, top: 10, left: 10, right: 10}}
             pressRetentionOffset={{bottom: 10, top: 10, left: 10, right: 10}}
             space={space}
+            operator={operator}
         >
-            <StyleCalcButtonText child={children || title} space={space}>
+            <StyleCalcButtonText child={children || title} space={space} operator={operator}>
                 {children || title}
             </StyleCalcButtonText>
         </StyleCalcButtonTouchableOpacity>
