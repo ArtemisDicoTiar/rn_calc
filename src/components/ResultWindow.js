@@ -4,7 +4,7 @@ import {StyleResultWindow} from "../styles/StyleResultWindow";
 
 
 function commafy( num ) {
-    console.log(num)
+    num = Number(num).toString()
     let eIndex = num.indexOf('e');
 
     if (eIndex !== -1) {
@@ -32,13 +32,25 @@ function commafy( num ) {
 }
 
 
+function getResult(calcResult) {
+    if (calcResult.length === 0) {
+        return 0
+    } else if (calcResult.length === 1 && calcResult === [0]) {
+        return 0
+    } else {
+        return commafy(calcResult.join(''))
+    }
+
+}
+
+
 export const ResultWindow = ({calcResult, style}) => {
     return (
         <View style={[style]}>
             <View style={{flex:7}}/>
             <View style={{flex:3}}>
                 <StyleResultWindow >
-                    {calcResult.length === 0 ? 0 : commafy(calcResult.join('')) }
+                    {getResult(calcResult)}
                 </StyleResultWindow>
             </View>
         </View>

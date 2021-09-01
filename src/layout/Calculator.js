@@ -7,11 +7,17 @@ import {set} from "react-native-reanimated";
 
 export const Calculator = () => {
     const [calcResult, setCalcResult] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const [operator, setOperator] = useState('');
 
     return (
         <View style={styles.container}>
             <Window style={styles.window} calcResult={calcResult}/>
-            <Buttons style={styles.buttons} calcResult={calcResult} setCalcResult={setCalcResult}/>
+            <Buttons style={styles.buttons}
+                     calcResult={calcResult}
+                     operator={operator}
+                     setOperator={setOperator}
+                     setCalcResult={setCalcResult}
+            />
         </View>
     );
 }

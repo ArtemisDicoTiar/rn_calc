@@ -24,25 +24,40 @@ function putDecimal(setArr, arr) {
 
 
 function appendNumber(setArr, arr, num) {
-    if (arr[0] === "-") {
-        if (arr.length < 10) {
-            setArr([...arr, num])
-        }
+    if ((arr.length === 0 || Number(arr.join('')) === 0) && num === 0) {
+        setArr([])
     } else {
-        if (arr.length < 9) {
-            setArr([...arr, num])
+        if (arr[0] === "-") {
+            if (arr.length < 10) {
+                setArr([...arr, num])
+            }
+        } else {
+            if (arr.length < 9) {
+                setArr([...arr, num])
+            }
         }
     }
-
 }
 
-export const Buttons = ({calcResult, setCalcResult, style}) => {
-    const [operator, setOperator] = useState('');
+
+function getClear(calcResult) {
+    console.log(calcResult)
+    if (calcResult.length === 0) {
+        return 'AC'
+    } else if (Number(calcResult.join('')) === 0) {
+        return 'AC'
+    } else {
+        return 'C'
+    }
+}
+
+export const Buttons = ({calcResult, setCalcResult, operator, setOperator, style}) => {
+
 
     return (
         <View style={[style]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
-                <CalcButton title={calcResult.join('') === '' ? "AC" : "C"}
+                <CalcButton title={getClear(calcResult)}
                             onPress={() => {
                                 setCalcResult([])
                                 setOperator('')
