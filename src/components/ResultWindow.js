@@ -4,6 +4,7 @@ import {StyleResultWindow} from "../styles/StyleResultWindow";
 
 
 function commafy( num ) {
+    console.log(num)
     let eIndex = num.indexOf('e');
 
     if (eIndex !== -1) {
@@ -11,7 +12,12 @@ function commafy( num ) {
         num = parseFloat(Number(num.slice(0, eIndex)).toFixed(6-eNum)).toString()
             + num.slice(eIndex, )
     } else {
-        num = Number(Number(num).toFixed(8)).toPrecision(9)
+        if (num.indexOf('.') !== -1) {
+            if (num.slice(-1) === '.') {
+                return num
+            }
+            num = Number(Number(num).toFixed(8)).toString()
+        }
     }
 
     num = num.replace('.', '').length <=9 ? num : num.slice(0, 10)
