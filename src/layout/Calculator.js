@@ -6,7 +6,7 @@ import {Buttons} from "./Buttons";
 import {set} from "react-native-reanimated";
 
 export const Calculator = () => {
-    const [calcResult, setCalcResult] = useState(['1', '2', '0']);
+    const [calcResult, setCalcResult] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
     return (
         <View style={styles.container}>

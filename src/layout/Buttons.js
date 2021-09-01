@@ -5,12 +5,9 @@ import CalcButton from "../components/CalcButton";
 
 function setSign(setArr, arr) {
     if (arr[0] === '-') {
-        console.log(arr.slice(1,))
         setArr(arr.slice(1,))
     } else {
-        arr.unshift("-")
-        console.log(arr)
-        setArr(arr)
+        setArr(['-', ...arr])
     }
 }
 
@@ -36,7 +33,7 @@ export const Buttons = ({calcResult, setCalcResult, style}) => {
                             onPress={() => {setCalcResult([])}} />
 
                 <CalcButton title="+/-" onPress={() => {setSign(setCalcResult, calcResult)}} />
-                <CalcButton title="%" onPress={() => {}} />
+                <CalcButton title="%" onPress={() => {setCalcResult([calcResult.join('')/100])}} />
                 <CalcButton title="÷" onPress={() => {}} />
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>

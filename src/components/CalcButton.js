@@ -7,13 +7,17 @@ const CalcButton = ({space, title, children, onPress}) => {
     return (
         <StyleCalcButtonTouchableOpacity
             child={children || title}
-            onPress={() => onPress()}
+            onPress={() => {
+                onPress()
+                this.pressed=true
+            }}
             delayLongPres={2000} // 이 파라미터로 길게 누름의 시간을 조절 가능.
             hitSlop={{bottom: 10, top: 10, left: 10, right: 10}}
             pressRetentionOffset={{bottom: 10, top: 10, left: 10, right: 10}}
             space={space}
+            pressed={this.pressed}
         >
-            <StyleCalcButtonText child={children || title} space={space}>
+            <StyleCalcButtonText child={children || title} space={space} pressed={this.pressed}>
                 {children || title}
             </StyleCalcButtonText>
         </StyleCalcButtonTouchableOpacity>
