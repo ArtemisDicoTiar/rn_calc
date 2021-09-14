@@ -24,29 +24,33 @@ function putDecimal(setArr, arr) {
 
 function appendNumber(setArr, arr,
                       setPrev, prev,
-                      num, operator) {
-    if (arr.length > 0 && operator.length !== 0) {
-        setPrev(arr)
-        setArr([num])
-        console.log('op', operator)
-        console.log('prev', prev)
-        console.log('arr', arr)
-    }
-
+                      num, operator,
+                      isSecond, setSecond) {
     if ((arr.length === 0 || Number(arr.join('')) === 0) && num === 0) {
         setArr([])
     } else {
+        if (isSecond) {
+            setArr(arr => [])
+            setSecond(false)
+        }
         if (arr[0] === "-") {
             if (arr.length < 10) {
-                setArr([...arr, num])
+                setArr(arr => [...arr, num])
             }
         } else {
             if (arr.length < 9) {
-                setArr([...arr, num])
+                setArr(arr => [...arr, num])
             }
         }
     }
+}
 
+function migrateValue(arr, operator, setPrev, setArr, setOperator, setIsSecondNum){
+    if (arr.length > 0) {
+        setPrev(() => [...arr])
+        setIsSecondNum(true)
+    }
+    setOperator(operator)
 }
 
 function calculate(prev, now, operator, setArr, setOperator) {
@@ -81,6 +85,8 @@ function getClear(calcResult) {
 }
 
 export const Buttons = ({calcResult, setCalcResult, prevCalcResult, setPrevCalcResult, operator, setOperator, style}) => {
+    const [isSecondNum, setIsSecondNum] = useState(false)
+
     return (
         <View style={[style]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
@@ -92,28 +98,28 @@ export const Buttons = ({calcResult, setCalcResult, prevCalcResult, setPrevCalcR
 
                 <CalcButton title="+/-" onPress={() => {setSign(setCalcResult, calcResult)}} />
                 <CalcButton title="%" onPress={() => {setCalcResult([calcResult.join('')/100])}} />
-                <CalcButton title="÷" operator={operator} onPress={() => {setOperator('÷')}} />
+                <CalcButton title="÷" operator={operator} onPress={() => {migrateValue(calcResult, '÷', setPrevCalcResult, setCalcResult, setOperator, setIsSecondNum)}} />
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
-                <CalcButton title="7" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 7, operator)}} />
-                <CalcButton title="8" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 8, operator)}} />
-                <CalcButton title="9" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 9, operator)}} />
-                <CalcButton title="×" operator={operator} onPress={() => {setOperator('×')}} />
+                <CalcButton title="7" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 7, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="8" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 8, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="9" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 9, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="×" operator={operator} onPress={() => {migrateValue(calcResult, '×', setPrevCalcResult, setCalcResult, setOperator, setIsSecondNum)}} />
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
-                <CalcButton title="4" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 4, operator)}} />
-                <CalcButton title="5" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 5, operator)}} />
-                <CalcButton title="6" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 6, operator)}} />
-                <CalcButton title="-" operator={operator} onPress={() => {setOperator('-')}} />
+                <CalcButton title="4" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 4, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="5" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 5, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="6" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 6, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="-" operator={operator} onPress={() => {migrateValue(calcResult, '-', setPrevCalcResult, setCalcResult, setOperator, setIsSecondNum)}} />
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
-                <CalcButton title="1" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 1, operator)}} />
-                <CalcButton title="2" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 2, operator)}} />
-                <CalcButton title="3" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 3, operator)}} />
-                <CalcButton title="+" operator={operator} onPress={() => {setOperator('+')}} />
+                <CalcButton title="1" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 1, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="2" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 2, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="3" onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 3, operator, isSecondNum, setIsSecondNum)}} />
+                <CalcButton title="+" operator={operator} onPress={() => {migrateValue(calcResult, '+', setPrevCalcResult, setCalcResult, setOperator, setIsSecondNum)}} />
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-around',}}>
-                <CalcButton title="0" space={2} onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 0, operator)}} />
+                <CalcButton title="0" space={2} onPress={() => {appendNumber(setCalcResult, calcResult, setPrevCalcResult, prevCalcResult, 0, operator, isSecondNum, setIsSecondNum)}} />
                 <CalcButton title="." onPress={() => {putDecimal(setCalcResult, calcResult)}} />
                 <CalcButton title="=" operator={operator} onPress={() => {calculate(prevCalcResult, calcResult, operator, setCalcResult, setOperator)}} />
             </View>
